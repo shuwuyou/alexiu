@@ -324,12 +324,11 @@ npm run lint     # Run ESLint
 5. **Ask Questions**: Go to "Ask Alexiu" to interact with the AI about saved reports
 6. **Manage Reports**: View and manage saved reports in "My Reports"
 
-## 🤝 Contributing
+## 🤝 Contributors
 
-Contributions welcome! Please ensure:
-- Code follows existing style conventions
-- All tests pass
-- Documentation is updated
+-Wuyou Shu
+-Xiaoxiao Huang
+-Zeyu Zhang
 
 ## 📄 License
 
