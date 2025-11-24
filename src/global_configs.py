@@ -1,0 +1,86 @@
+import logging
+from pathlib import Path
+from dotenv import load_dotenv
+import os
+from src.utils.load_utils import load_yaml, load_txt, load_json
+
+load_dotenv(override=True)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# Set up logging configurations
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+
+PROJECT_ROOT = Path(__file__).parent.parent
+CONFIG_DIR = PROJECT_ROOT / "configs"
+PROMPTS_DIR = PROJECT_ROOT / "prompts"
+
+MODEL_CONFIGS = load_yaml(CONFIG_DIR / "model_configs.yaml")
+PROMPT_CONFIGS = load_yaml(CONFIG_DIR / "prompt_configs.yaml")
+
+
+OPENAI_MODEL_CONFIGS = MODEL_CONFIGS["OPENAI_MODEL_CONFIGS"]
+REPORT_GENERATOR_CONFIGS = OPENAI_MODEL_CONFIGS["report_generator"]
+ANALYSIS_AGENT_CONFIGS = REPORT_GENERATOR_CONFIGS["analysis_agent"]
+NEWS_AGENT_CONFIGS = REPORT_GENERATOR_CONFIGS["news_agent"]
+NEWS_ANALYSIS_AGENT_CONFIGS = REPORT_GENERATOR_CONFIGS["news_analysis_agent"]
+GENERATOR_AGENT_CONFIGS = REPORT_GENERATOR_CONFIGS["generator_agent"]
+
+# Chatbot configs
+CHATBOT_CONFIGS = OPENAI_MODEL_CONFIGS["chatbot"]
+QUERY_REWRITER_AGENT_CONFIGS = CHATBOT_CONFIGS["query_rewriter_agent"]
+QUERY_ROUTER_AGENT_CONFIGS = CHATBOT_CONFIGS["query_router_agent"]
+GENERAL_CHATBOT_AGENT_CONFIGS = CHATBOT_CONFIGS["general_chatbot_agent"]
+REPORT_ANSWER_AGENT_CONFIGS = CHATBOT_CONFIGS["report_answer_agent"]
+
+# Load prompts (with fallback to empty string if file doesn't exist yet)
+REPORT_GENERATOR_PROMPTS = {
+    "ANALYSIS_AGENT_SYSTEM_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["REPORT_GENERATOR_PROMPTS"]["analysis_agent"]["system_prompt"], default=""),
+    "ANALYSIS_AGENT_USER_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["REPORT_GENERATOR_PROMPTS"]["analysis_agent"]["user_prompt"], default=""),
+    "NEWS_AGENT_USER_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["REPORT_GENERATOR_PROMPTS"]["news_agent"]["user_prompt"], default=""),
+    "NEWS_ANALYSIS_AGENT_SYSTEM_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["REPORT_GENERATOR_PROMPTS"]["news_analysis_agent"]["system_prompt"], default=""),
+    "NEWS_ANALYSIS_AGENT_USER_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["REPORT_GENERATOR_PROMPTS"]["news_analysis_agent"]["user_prompt"], default=""),
+    "GENERATOR_AGENT_SYSTEM_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["REPORT_GENERATOR_PROMPTS"]["generator_agent"]["system_prompt"], default=""),
+    "GENERATOR_AGENT_USER_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["REPORT_GENERATOR_PROMPTS"]["generator_agent"]["user_prompt"], default=""),
+}
+
+# Individual prompt constants for easy access
+ANALYSIS_AGENT_SYSTEM_PROMPT = REPORT_GENERATOR_PROMPTS["ANALYSIS_AGENT_SYSTEM_PROMPT"]
+ANALYSIS_AGENT_USER_PROMPT = REPORT_GENERATOR_PROMPTS["ANALYSIS_AGENT_USER_PROMPT"]
+NEWS_AGENT_USER_PROMPT = REPORT_GENERATOR_PROMPTS["NEWS_AGENT_USER_PROMPT"]
+NEWS_ANALYSIS_AGENT_SYSTEM_PROMPT = REPORT_GENERATOR_PROMPTS["NEWS_ANALYSIS_AGENT_SYSTEM_PROMPT"]
+NEWS_ANALYSIS_AGENT_USER_PROMPT = REPORT_GENERATOR_PROMPTS["NEWS_ANALYSIS_AGENT_USER_PROMPT"]
+GENERATOR_AGENT_SYSTEM_PROMPT = REPORT_GENERATOR_PROMPTS["GENERATOR_AGENT_SYSTEM_PROMPT"]
+GENERATOR_AGENT_USER_PROMPT = REPORT_GENERATOR_PROMPTS["GENERATOR_AGENT_USER_PROMPT"]
+
+# Chatbot prompts
+CHATBOT_PROMPTS = {
+    "QUERY_REWRITER_AGENT_SYSTEM_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["CHATBOT_PROMPTS"]["query_rewriter_agent"]["system_prompt"], default=""),
+    "QUERY_REWRITER_AGENT_USER_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["CHATBOT_PROMPTS"]["query_rewriter_agent"]["user_prompt"], default=""),
+    "QUERY_ROUTER_AGENT_SYSTEM_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["CHATBOT_PROMPTS"]["query_router_agent"]["system_prompt"], default=""),
+    "QUERY_ROUTER_AGENT_USER_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["CHATBOT_PROMPTS"]["query_router_agent"]["user_prompt"], default=""),
+    "GENERAL_CHATBOT_AGENT_SYSTEM_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["CHATBOT_PROMPTS"]["general_chatbot_agent"]["system_prompt"], default=""),
+    "GENERAL_CHATBOT_AGENT_USER_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["CHATBOT_PROMPTS"]["general_chatbot_agent"]["user_prompt"], default=""),
+    "REPORT_ANSWER_AGENT_SYSTEM_PROMPT": load_txt(PROMPTS_DIR / PROMPT_CONFIGS["CHATBOT_PROMPTS"]["report_answer_agent"]["system_prompt"], default=""),
+}
+
+# Individual chatbot prompt constants
+QUERY_REWRITER_AGENT_SYSTEM_PROMPT = CHATBOT_PROMPTS["QUERY_REWRITER_AGENT_SYSTEM_PROMPT"]
+QUERY_REWRITER_AGENT_USER_PROMPT = CHATBOT_PROMPTS["QUERY_REWRITER_AGENT_USER_PROMPT"]
+QUERY_ROUTER_AGENT_SYSTEM_PROMPT = CHATBOT_PROMPTS["QUERY_ROUTER_AGENT_SYSTEM_PROMPT"]
+QUERY_ROUTER_AGENT_USER_PROMPT = CHATBOT_PROMPTS["QUERY_ROUTER_AGENT_USER_PROMPT"]
+GENERAL_CHATBOT_AGENT_SYSTEM_PROMPT = CHATBOT_PROMPTS["GENERAL_CHATBOT_AGENT_SYSTEM_PROMPT"]
+GENERAL_CHATBOT_AGENT_USER_PROMPT = CHATBOT_PROMPTS["GENERAL_CHATBOT_AGENT_USER_PROMPT"]
+REPORT_ANSWER_AGENT_SYSTEM_PROMPT = CHATBOT_PROMPTS["REPORT_ANSWER_AGENT_SYSTEM_PROMPT"]
+
+# Load schemas
+SCHEMAS_DIR = CONFIG_DIR / "schemas"
+REPORT_SCHEMA = load_json(SCHEMAS_DIR / "report_schema.json")
+ANALYSIS_SCHEMA = load_json(SCHEMAS_DIR / "analysis_schema.json")
+NEWS_SCHEMA = load_json(SCHEMAS_DIR / "news_schema.json")
+NEWS_ANALYSIS_SCHEMA = load_json(SCHEMAS_DIR / "news_analysis_schema.json")
+QUERY_ROUTER_SCHEMA = load_json(SCHEMAS_DIR / "query_router_schema.json")
+

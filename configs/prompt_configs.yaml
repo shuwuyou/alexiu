@@ -1,0 +1,25 @@
+REPORT_GENERATOR_PROMPTS:
+  analysis_agent:
+    system_prompt: report_generator/analysis_agent_system_prompt.txt
+    user_prompt: report_generator/analysis_agent_user_prompt.txt
+  news_agent:
+    user_prompt: report_generator/news_agent_user_prompt.txt
+  news_analysis_agent:
+    system_prompt: report_generator/news_analysis_agent_system_prompt.txt
+    user_prompt: report_generator/news_analysis_agent_user_prompt.txt
+  generator_agent:
+    system_prompt: report_generator/generator_agent_system_prompt.txt
+    user_prompt: report_generator/generator_agent_user_prompt.txt
+
+CHATBOT_PROMPTS:
+  query_rewriter_agent:
+    system_prompt: chatbot/query_rewriter_agent_system_prompt.txt
+    user_prompt: chatbot/query_rewriter_agent_user_prompt.txt
+  query_router_agent:
+    system_prompt: chatbot/query_router_agent_system_prompt.txt
+    user_prompt: chatbot/query_router_agent_user_prompt.txt
+  general_chatbot_agent:
+    system_prompt: chatbot/general_chatbot_agent_system_prompt.txt
+    user_prompt: chatbot/general_chatbot_agent_user_prompt.txt
+  report_answer_agent:
+    system_prompt: chatbot/report_answer_agent_system_prompt.txt

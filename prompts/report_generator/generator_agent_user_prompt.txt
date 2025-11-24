@@ -1,0 +1,64 @@
+Synthesize the following information into a comprehensive, professional player report.
+
+Player Analysis:
+{player_analysis}
+
+News Articles:
+{news_articles}
+
+News Analysis:
+{news_analysis}
+
+**CRITICAL: You MUST output JSON following this EXACT structure. All report content MUST be inside a "report" object. Do NOT put player_development, breakout_analysis, valuation_insights, transfer_fee_analysis, or any other report fields at the top level.**
+
+{{
+  "player_info": {{
+    "id": "string (from player_analysis.player_info.id)",
+    "name": "string (from player_analysis.player_info.name)",
+    "position": "string (from player_analysis.player_info.position)",
+    "age": integer (from player_analysis.player_info.age),
+    "club": "string (from player_analysis.player_info.club)"
+  }},
+  "report": {{
+    "executive_summary": "2-3 sentences combining analysis and news insights",
+    "player_development": "Enhanced narrative from player_analysis.player_development with news context integrated",
+    "breakout_analysis": "Enhanced narrative from player_analysis.breakout_analysis with news context integrated",
+    "valuation_insights": "Enhanced narrative from player_analysis.valuation_insights with news context integrated",
+    "transfer_fee_analysis": "Copy from player_analysis.transfer_fee_analysis (2-3 sentences analyzing transfer fee drivers using SHAP and MLR data)",
+    "key_statistics": {{
+      "current_market_value": "string (from player_analysis.key_statistics.current_market_value)",
+      "peak_market_value": "string (from player_analysis.key_statistics.peak_market_value)",
+      "career_goals": integer (from player_analysis.key_statistics.career_goals),
+      "career_assists": integer (from player_analysis.key_statistics.career_assists),
+      "recent_form": "string (from player_analysis.key_statistics.recent_form)"
+    }},
+    "strengths": ["array of strings from player_analysis.strengths"],
+    "weaknesses": ["array of strings from player_analysis.weaknesses"],
+    "recommendation": "1-2 paragraphs enhanced with news context",
+    "news_context": "2-3 sentences summarizing how news relates to the analysis"
+  }},
+  "news": [array of news articles with title and summary only],
+  "generated_at": "ISO 8601 timestamp (YYYY-MM-DDTHH:MM:SSZ)"
+}}
+
+**Instructions:**
+1. Extract player_info from player_analysis.player_info
+2. Put ALL report content inside the "report" object - do NOT put fields at the top level
+3. Create executive_summary: Use player_analysis.executive_summary if available, otherwise create 2-3 sentences combining key insights from player_analysis and news
+4. Enhance player_development: Take player_analysis.player_development (which is a string) and weave in relevant news context naturally
+5. Enhance breakout_analysis: Take player_analysis.breakout_analysis (which is a string) and weave in relevant news context naturally
+6. Enhance valuation_insights: Take player_analysis.valuation_insights (which is a string) and weave in relevant news context naturally
+7. Copy transfer_fee_analysis: Use player_analysis.transfer_fee_analysis (which is a string) - copy it directly as it analyzes transfer fee drivers using SHAP and MLR data
+8. Extract key_statistics: Use player_analysis.key_statistics if available. If not, extract from player_data:
+   - current_market_value: Format as string (e.g., "€3M" or "$3 million")
+   - peak_market_value: Format as string (e.g., "€16M")
+   - career_goals: integer from career totals
+   - career_assists: integer from career totals
+   - recent_form: Brief description based on recent_form_last_10_games
+9. Copy strengths and weaknesses arrays exactly from player_analysis
+10. Create recommendation: Use player_analysis.recommendation if available, otherwise create 1-2 paragraphs with recommendations enhanced by news context
+11. Write news_context: 2-3 sentences summarizing how news articles relate to the player's situation
+12. Include only title and summary for each news article (remove date, source, relevance)
+13. Set generated_at to current timestamp in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ)
+
+The goal is to create a unified, professional report where news context enhances the analysis naturally. All content must be inside the "report" object.

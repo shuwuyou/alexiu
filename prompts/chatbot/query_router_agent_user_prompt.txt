@@ -1,0 +1,8 @@
+Classify the following query about soccer players.
+
+Query: {query}
+
+Determine if this query requires player report data ("report") or can be answered with general soccer knowledge ("general").
+
+Return your classification as JSON: {{"classification": "report"}} or {{"classification": "general"}}
+

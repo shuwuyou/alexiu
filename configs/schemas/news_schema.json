@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "news": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the news article"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Summary of the article in 2-3 sentences"
+          },
+          "date": {
+            "type": ["string", "null"],
+            "description": "Publication date in YYYY-MM-DD format"
+          },
+          "source": {
+            "type": "string",
+            "description": "Full URL of the article",
+            "format": "uri"
+          },
+          "relevance": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Relevance level to the player"
+          }
+        },
+        "required": ["title", "summary"],
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": ["news"],
+  "additionalProperties": false
+}
+

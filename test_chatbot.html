@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .clear-btn {
+            background-color: #f44336;
+        }
+        
+        .clear-btn:hover {
+            background-color: #da190b;
+        }
+        
+        .chat-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+            background-color: #fafafa;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: #e3f2fd;
+            text-align: right;
+        }
+        
+        .bot-message {
+            background-color: #f1f8e9;
+            text-align: left;
+        }
+        
+        .message-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .session-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff3cd;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #856404;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .mode-btn:hover {
+            border-color: #4CAF50;
+        }
+        
+        .report-section {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        .report-section.active {
+            display: block;
+        }
+        
+        textarea.report-data {
+            font-family: monospace;
+            font-size: 12px;
+            min-height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Chatbot Test</h1>
+        
+        <div class="mode-toggle">
+            <button class="mode-btn active" id="generalModeBtn" onclick="switchMode('general')">
+                General Chat
+            </button>
+            <button class="mode-btn" id="reportModeBtn" onclick="switchMode('report')">
+                Report Chat
+            </button>
+        </div>
+        
+        <div class="input-group">
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId" value="test_user" placeholder="Enter user ID">
+        </div>
+        
+        <div class="input-group">
+            <label for="message">Message:</label>
+            <textarea id="message" placeholder="Type your message here...">What is a breakout candidate?</textarea>
+        </div>
+        
+        <div class="report-section" id="reportSection">
+            <div class="input-group">
+                <label for="reportData">Report Data (JSON):</label>
+                <textarea id="reportData" class="report-data" placeholder='{"player_info": {"name": "Lionel Messi", ...}}'></textarea>
+            </div>
+        </div>
+        
+        <div>
+            <button id="sendBtn" onclick="sendMessage()">Send Message</button>
+            <button class="clear-btn" onclick="clearChat()">Clear Chat</button>
+        </div>
+        
+        <div id="sessionInfo" class="session-info" style="display: none;">
+            <strong>Session ID:</strong> <span id="sessionId">-</span>
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="message bot-message">
+                <div class="message-label">Bot</div>
+                <div>Welcome! Ask me anything about soccer players or general soccer questions.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api/chatbot/chat';
+        const REPORT_API_URL = 'http://localhost:8000/api/chatbot/report-chat';
+        const STORAGE_KEY = 'chatbot_session_id';
+        
+        // Load session ID from localStorage on page load
+        let currentSessionId = localStorage.getItem(STORAGE_KEY);
+        let currentMode = 'general'; // 'general' or 'report'
+
+        // Update session info on page load if session exists
+        if (currentSessionId) {
+            updateSessionInfo(currentSessionId);
+        }
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            const generalBtn = document.getElementById('generalModeBtn');
+            const reportBtn = document.getElementById('reportModeBtn');
+            const reportSection = document.getElementById('reportSection');
+            
+            if (mode === 'general') {
+                generalBtn.classList.add('active');
+                reportBtn.classList.remove('active');
+                reportSection.classList.remove('active');
+            } else {
+                reportBtn.classList.add('active');
+                generalBtn.classList.remove('active');
+                reportSection.classList.add('active');
+            }
+        }
+
+        async function sendMessage() {
+            const userId = document.getElementById('userId').value;
+            const message = document.getElementById('message').value;
+            const sendBtn = document.getElementById('sendBtn');
+            const errorDiv = document.getElementById('error');
+            
+            if (!userId || !message) {
+                showError('Please enter both User ID and Message');
+                return;
+            }
+            
+            // Check if report mode requires report data
+            if (currentMode === 'report') {
+                const reportData = document.getElementById('reportData').value.trim();
+                if (!reportData) {
+                    showError('Report mode requires report data (JSON)');
+                    return;
+                }
+            }
+            
+            // Disable button
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+            errorDiv.style.display = 'none';
+            
+            // Add user message to chat
+            addMessage('user', message);
+            
+            // Clear input
+            document.getElementById('message').value = '';
+            
+            try {
+                // Prepare request body
+                const requestBody = {
+                    user_id: userId,
+                    message: message,
+                    session_id: currentSessionId
+                };
+                
+                // Add report data if in report mode
+                if (currentMode === 'report') {
+                    try {
+                        const reportData = document.getElementById('reportData').value.trim();
+                        requestBody.report = JSON.parse(reportData);
+                    } catch (e) {
+                        showError('Invalid JSON in report data: ' + e.message);
+                        sendBtn.disabled = false;
+                        sendBtn.textContent = 'Send Message';
+                        return;
+                    }
+                }
+                
+                // Use appropriate endpoint
+                const apiUrl = currentMode === 'report' ? REPORT_API_URL : API_URL;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Get session ID from headers (must be done before reading body)
+                const sessionId = response.headers.get('X-Session-ID');
+                if (sessionId) {
+                    if (sessionId !== currentSessionId) {
+                        console.log('Session ID changed:', currentSessionId, '->', sessionId);
+                    }
+                    currentSessionId = sessionId;
+                    // Save to localStorage for persistence
+                    localStorage.setItem(STORAGE_KEY, sessionId);
+                    updateSessionInfo(sessionId);
+                } else {
+                    console.warn('No session ID in response headers');
+                    if (currentSessionId) {
+                        console.log('Using existing session ID:', currentSessionId);
+                    }
+                }
+                
+                // Read streaming response
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let botMessageDiv = addMessage('bot', '');
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    botMessageDiv.querySelector('div:last-child').textContent += chunk;
+                    
+                    // Auto scroll to bottom
+                    const chatContainer = document.getElementById('chatContainer');
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(`Error: ${error.message}`);
+                addMessage('bot', `Error: ${error.message}`);
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send Message';
+            }
+        }
+        
+        function addMessage(role, content) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+            
+            const label = document.createElement('div');
+            label.className = 'message-label';
+            label.textContent = role === 'user' ? 'You' : 'Bot';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.textContent = content;
+            
+            messageDiv.appendChild(label);
+            messageDiv.appendChild(contentDiv);
+            chatContainer.appendChild(messageDiv);
+            
+            // Auto scroll
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            return messageDiv;
+        }
+        
+        function clearChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.innerHTML = '<div class="message bot-message"><div class="message-label">Bot</div><div>Chat cleared. Ask me anything!</div></div>';
+            currentSessionId = null;
+            localStorage.removeItem(STORAGE_KEY);
+            updateSessionInfo(null);
+        }
+        
+        function updateSessionInfo(sessionId) {
+            const sessionInfo = document.getElementById('sessionInfo');
+            const sessionIdSpan = document.getElementById('sessionId');
+            
+            if (sessionId) {
+                sessionIdSpan.textContent = sessionId;
+                sessionInfo.style.display = 'block';
+            } else {
+                sessionInfo.style.display = 'none';
+            }
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        // Allow Enter key to send (Shift+Enter for new line)
+        document.getElementById('message').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
+

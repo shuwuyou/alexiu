@@ -1,0 +1,13 @@
+Analyze the following news articles about a player and provide a concise analysis of how the news relates to three critical problem areas.
+
+News Articles:
+{news_articles}
+
+Provide a single, concise analysis (2-3 paragraphs maximum) that addresses:
+
+1. **Player Development**: How the news relates to development trajectory and aging curve
+2. **Breakout Potential**: Whether the news suggests breakout candidate potential
+3. **Valuations**: How the news relates to market value and transfer fees
+
+Merge all insights into one cohesive analysis. Be concise and focus on key points only. Use specific information from the news articles to support your conclusions.
+

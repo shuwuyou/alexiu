@@ -1,0 +1,41 @@
+Analyze the following player data and write a comprehensive, narrative-style report.
+
+Player Data:
+{player_data}
+
+Write your analysis in a professional, journalistic style. Structure your response as follows:
+
+**Executive Summary**: Write 2-3 sentences providing a high-level overview of the player's current status and key insights.
+
+**Player Development**: Write 2-3 flowing paragraphs analyzing the player's aging trajectory, how they're performing relative to position-specific norms, and their development arc. Use specific statistics to support your narrative. Address whether they're aging well or declining, and what this means for their future.
+
+**Breakout Analysis**: Write 2-3 flowing paragraphs assessing whether this player is a breakout candidate. Discuss their growth potential, what indicators suggest future value changes, and predictions for the next 1-2 seasons. Use performance trends and statistics to support your assessment.
+
+**Valuation Insights**: Write 2-3 flowing paragraphs examining their market value. Analyze whether they're undervalued or overvalued based on performance, how their transfers have performed historically, what factors drive their value, and how they position in the market. Use transfer history and ML predictions to support your analysis.
+
+**Transfer Fee Analysis**: Write 2-3 flowing sentences analyzing what drives TRANSFER FEES (the actual prices clubs pay in transactions) for this player. IMPORTANT: Transfer fees and market value are different concepts - focus on what determines the actual transfer fee paid, not market value.
+
+Use the SHAP summary (shap_summary) and MLR coefficients (mlr_coefficients) data to:
+- Identify the top 3-5 most important factors that influence transfer fees (e.g., age_at_transfer, contract_years_left, goals_per90, assists_per90, minutes_365, club characteristics like to_average_age, to_squad_size, from_foreigners_percentage)
+- Explain the direction and magnitude of each factor's impact on transfer fees using the SHAP values and MLR coefficients
+- Compare predicted vs actual transfer fees to assess model accuracy
+- Discuss what these factors reveal about what clubs prioritize when negotiating and paying transfer fees
+- Reference specific SHAP values and coefficient values to support your analysis
+- If market_value_in_eur appears in the data, note that while clubs may reference market value, transfer fees are determined by many factors including age, contract terms, performance metrics, and club characteristics - not just market value
+
+Focus on the features with the highest absolute SHAP values (positive_features and negative_features) and the largest MLR coefficients to identify the most important drivers of transfer fees.
+
+**Key Statistics**: Extract and format the following statistics:
+- Current market value
+- Peak market value
+- Career goals
+- Career assists  
+- Recent form description
+
+**Strengths**: List 3-5 key strengths based on the data
+
+**Weaknesses**: List 3-5 areas for improvement based on the data
+
+**Recommendation**: Write 1-2 paragraphs with your overall recommendation for teams considering this player and suggestions for the player's development.
+
+Ensure all narratives are data-driven, specific, and tell a clear story about the player. Avoid generic statements - use actual statistics and trends from the provided data.

@@ -1,0 +1,9 @@
+Rewrite and normalize the following user query about soccer players.
+
+Conversation History:
+{history}
+
+User Question: {question}
+
+Return only the rewritten query as a single string. Do not include any labels, prefixes, or explanations. Just return the rewritten query text.
+

@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "analysis": {
+      "type": "string",
+      "description": "Concise analysis of how the news relates to player development, breakout potential, and valuations. Merge insights from all three problem areas into one cohesive analysis."
+    }
+  },
+  "required": [
+    "analysis"
+  ],
+  "additionalProperties": false
+}
+

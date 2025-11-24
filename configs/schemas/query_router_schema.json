@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "classification": {
+      "type": "string",
+      "enum": ["report", "general"],
+      "description": "Classification: 'report' for queries needing player report data, 'general' for general soccer questions"
+    }
+  },
+  "required": ["classification"],
+  "additionalProperties": false
+}
+

@@ -1,0 +1,69 @@
+OPENAI_MODEL_CONFIGS:
+  report_generator:
+    analysis_agent:
+      model: "gpt-5-mini"
+      temperature: 0.4
+      max_completion_tokens: null
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      stream: false
+      verbosity: "low"
+    news_agent:
+      model: "gpt-5-mini"
+      temperature: 0.3
+      max_completion_tokens: 2000
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      stream: false
+      reasoning_effort: "low"
+    news_analysis_agent:
+      model: "gpt-5.1"
+      temperature: 0.4
+      max_completion_tokens: null 
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      reasoning_effort: "none"
+      verbosity: "low"
+      stream: false
+    generator_agent:
+      model: "gpt-5-mini"
+      temperature: 0.7
+      max_completion_tokens: null
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      verbosity: "medium"
+      stream: true
+  chatbot:
+    query_rewriter_agent:
+      model: "gpt-5-mini"
+      max_completion_tokens: 500
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      stream: false
+    query_router_agent:
+      model: "gpt-5-mini"
+      max_completion_tokens: 500
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      stream: false
+    general_chatbot_agent:
+      model: "gpt-5-mini"
+      max_completion_tokens: 2000
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      stream: true
+    report_answer_agent:
+      model: "gpt-5-mini"
+      max_completion_tokens: 3000
+      top_p: 1.0
+      frequency_penalty: 0.0
+      presence_penalty: 0.0
+      stream: true
+      reasoning_effort: "low"

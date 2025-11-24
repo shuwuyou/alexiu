@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "properties": {
+    "player_info": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "position": {"type": "string"},
+        "age": {"type": "integer"},
+        "club": {"type": "string"}
+      },
+      "required": ["id", "name", "position", "age", "club"],
+      "additionalProperties": false
+    },
+    "executive_summary": {
+      "type": "string",
+      "description": "Brief overview of the player's current status and key insights (2-3 sentences)"
+    },
+    "player_development": {
+      "type": "string",
+      "description": "Narrative analysis of aging trajectory, performance vs expectation, and position curve comparison (2-3 paragraphs)"
+    },
+    "breakout_analysis": {
+      "type": "string",
+      "description": "Assessment of breakout potential, future value growth, and development indicators (2-3 paragraphs)"
+    },
+    "valuation_insights": {
+      "type": "string",
+      "description": "Market value analysis, transfer fee performance, value factors, and market positioning (2-3 paragraphs)"
+    },
+    "transfer_fee_analysis": {
+      "type": "string",
+      "description": "Analysis of transfer fee drivers using SHAP values and MLR coefficients. Identify which factors are most important for determining transfer fees, explain the impact of key features (market value, age, contract, performance metrics, etc.), and discuss how well the model predicted actual transfer fees (2-3 paragraphs)"
+    },
+    "key_statistics": {
+      "type": "object",
+      "properties": {
+        "current_market_value": {"type": "string"},
+        "peak_market_value": {"type": "string"},
+        "career_goals": {"type": "integer"},
+        "career_assists": {"type": "integer"},
+        "recent_form": {"type": "string"}
+      },
+      "required": ["current_market_value", "peak_market_value", "career_goals", "career_assists", "recent_form"],
+      "additionalProperties": false
+    },
+    "strengths": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "Key strengths identified from statistics and performance"
+    },
+    "weaknesses": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "Areas for improvement identified from statistics and performance"
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Overall recommendation for teams and player development (1-2 paragraphs)"
+    }
+  },
+  "required": [
+    "player_info",
+    "executive_summary",
+    "player_development",
+    "breakout_analysis",
+    "valuation_insights",
+    "transfer_fee_analysis",
+    "key_statistics",
+    "strengths",
+    "weaknesses",
+    "recommendation"
+  ],
+  "additionalProperties": false
+}

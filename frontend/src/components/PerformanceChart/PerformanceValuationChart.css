@@ -1,0 +1,31 @@
+.performance-chart-card {
+  grid-column: 1 / -1;
+  height: 400px;
+}
+
+.performance-chart-container {
+  height: 300px;
+}
+
+.custom-tooltip {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+.tooltip-label {
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+}
+
+.tooltip-performance span {
+  color: #4c6ef5;
+  font-weight: 600;
+}
+
+.tooltip-valuation span {
+  color: #51cf66;
+  font-weight: 600;
+}
